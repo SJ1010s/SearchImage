@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -24,8 +25,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -34,9 +35,23 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    kapt {
+        generateStubs = true
+    }
 }
 
 dependencies {
+    api 'com.google.dagger:dagger:2.37'
+    api 'com.google.dagger:dagger-android:2.37'
+    api 'com.google.dagger:dagger-android-support:2.37'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.35.1'
+    kapt 'com.google.dagger:dagger-compiler:2.35.1'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.35.1'
+    kapt 'com.google.dagger:dagger-android-processor:2.35.1'
+    compileOnly 'javax.annotation:jsr250-api:1.0'
+    implementation 'javax.inject:javax.inject:1'
+
 
     implementation 'com.github.terrakok:cicerone:7.0'
 

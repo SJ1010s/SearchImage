@@ -10,7 +10,7 @@ import com.home.searchimage.R
 import com.home.searchimage.databinding.MainFragmentBinding
 import moxy.MvpAppCompatFragment
 
-class MainFragment : MvpAppCompatFragment() {
+class MainFragment : MvpAppCompatFragment(), MainView {
 
     private var _viewBinding: MainFragmentBinding? = null
     private val viewBinding get() = _viewBinding!!
