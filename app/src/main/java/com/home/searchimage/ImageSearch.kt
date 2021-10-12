@@ -1,19 +1,13 @@
 package com.home.searchimage
 
 import android.app.Application
-import com.home.searchimage.di.DaggerImageSearchComponent
-import com.home.searchimage.di.ImageSearchSubcomponent
-import com.home.searchimage.di.modules.AppModule
+import com.home.searchimage.di.DaggerImageSearchAppComponent
+import com.home.searchimage.di.ImageSearchAppComponent
 import com.home.searchimage.di.modules.CiceroneModule
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import javax.inject.Inject
 
-class ImageSearch: Application(), HasAndroidInjector {
+class ImageSearch: Application() {
 
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+    private lateinit var component: ImageSearchAppComponent
 
     companion object {
         lateinit var instance: ImageSearch
@@ -23,10 +17,15 @@ class ImageSearch: Application(), HasAndroidInjector {
     override fun onCreate() {
         super.onCreate()
         instance = this
+        component = DaggerImageSearchAppComponent
+            .builder()
+            .ciceroneModule(CiceroneModule())
+            .build()
+        getComponent().inject(this)
     }
 
-    override fun androidInjector(): AndroidInjector<Any> {
-        return dispatchingAndroidInjector
+    fun getComponent():ImageSearchAppComponent{
+        return component
     }
 
 }
