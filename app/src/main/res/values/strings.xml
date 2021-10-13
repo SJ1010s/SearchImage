@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Search Image</string>
+    <string name="numbers_of_view">Numbers of view</string>
+    <string name="count_of_download">Count of download</string>
 </resources>

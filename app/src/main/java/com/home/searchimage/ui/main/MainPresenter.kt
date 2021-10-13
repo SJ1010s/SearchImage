@@ -6,6 +6,8 @@ import javax.inject.Inject
 
 class MainPresenter() : MvpPresenter<MainView>() {
 
+    private val itemViewClickListener get() = ItemViewClickListener(this)
+    private val images = mutableListOf<GithubUser>()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -13,5 +15,11 @@ class MainPresenter() : MvpPresenter<MainView>() {
 
     override fun onDestroy() {
         super.onDestroy()
+    }
+
+    class ItemViewClickListener(val presenter: MainPresenter) : OnItemViewClickListener {
+        override fun onItemViewClick(userID: String) {
+            presenter.itemClick(userID)
+        }
     }
 }
