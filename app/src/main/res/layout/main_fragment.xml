@@ -3,15 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="@android:color/black"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.MainFragment"
-    android:background="@android:color/black">
+    tools:context=".ui.main.MainFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_images"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:clipToPadding="false"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
@@ -37,7 +38,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:textColor="@android:color/white"
         tools:text="Поисковый запрос"
-        android:hint="Поисковый запрос"/>
+        android:hint="@string/search_request"
+        android:textColorHint="@android:color/darker_gray"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
