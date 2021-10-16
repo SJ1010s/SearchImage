@@ -57,6 +57,7 @@ class MainPresenter() : MvpPresenter<MainView>() {
         super.onFirstViewAttach()
         viewState.initRV()
         initImageList()
+        viewState.getInputSearchTextListener()
     }
 
     class ItemViewClickListener(val presenter: MainPresenter) : OnItemViewClickListener {
@@ -76,5 +77,10 @@ class MainPresenter() : MvpPresenter<MainView>() {
     fun initImageList() {
         images.clear()
         repository?.getImageListFromServer("", callback)
+    }
+
+    fun getImagesFromSearchText(request: String){
+        images.clear()
+        repository?.getImageListFromServer(request, callback)
     }
 }
