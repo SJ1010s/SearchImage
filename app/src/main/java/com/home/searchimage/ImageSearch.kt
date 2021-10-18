@@ -7,10 +7,13 @@ import com.home.searchimage.di.modules.CiceroneModule
 
 class ImageSearch: Application() {
 
-    private lateinit var component: ImageSearchAppComponent
-
     companion object {
         lateinit var instance: ImageSearch
+        private lateinit var component: ImageSearchAppComponent
+
+        fun getComponent():ImageSearchAppComponent{
+            return component
+        }
     }
 
 
@@ -24,8 +27,6 @@ class ImageSearch: Application() {
         getComponent().inject(this)
     }
 
-    fun getComponent():ImageSearchAppComponent{
-        return component
-    }
+
 
 }

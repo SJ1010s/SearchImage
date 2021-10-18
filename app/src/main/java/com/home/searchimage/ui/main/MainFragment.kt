@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.terrakok.cicerone.Router
+import com.home.searchimage.ImageSearch
 import com.home.searchimage.R
 import com.home.searchimage.databinding.MainFragmentBinding
 import com.home.searchimage.model.Repository
@@ -17,6 +19,7 @@ import com.home.searchimage.ui.main.adapter.MainRVAdapter
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import retrofit2.Callback
+import javax.inject.Inject
 
 class MainFragment : MvpAppCompatFragment(), MainView {
 
@@ -25,10 +28,16 @@ class MainFragment : MvpAppCompatFragment(), MainView {
     private val presenter: MainPresenter by moxyPresenter { MainPresenter() }
     private var adapter: MainRVAdapter? = null
 
+    @Inject
+    lateinit var router: Router
+
     companion object {
         fun newInstance() = MainFragment()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
