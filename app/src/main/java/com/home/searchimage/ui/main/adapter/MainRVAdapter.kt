@@ -48,6 +48,7 @@ class MainRVAdapter(
 
         fun bind(imageItem: ImageMainScreenData) {
             itemView.setOnClickListener {
+
                 onItemViewClickListener?.onItemViewClick(imageItem.largeImageURL)
             }
             Glide
