@@ -8,7 +8,7 @@ import moxy.viewstate.strategy.AddToEndStrategy
 import moxy.viewstate.strategy.SingleStateStrategy
 import moxy.viewstate.strategy.StateStrategyType
 
-@StateStrategyType(AddToEndSingleStrategy::class)
+@StateStrategyType(AddToEndStrategy::class)
 interface MainView: MvpView {
     fun initRV()
     fun setImages(images: List<ImageMainScreenData>)

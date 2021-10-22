@@ -12,12 +12,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
 import com.github.terrakok.cicerone.Router
 import com.home.searchimage.ImageSearch
 import com.home.searchimage.R
 import com.home.searchimage.databinding.MainFragmentBinding
 import com.home.searchimage.model.Repository
 import com.home.searchimage.model.data.ImageMainScreenData
+import com.home.searchimage.model.room.AppDataBase
+import com.home.searchimage.model.room.SearchRequestTable
 import com.home.searchimage.ui.main.adapter.MainRVAdapter
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -82,6 +85,10 @@ class MainFragment : MvpAppCompatFragment(), MainView {
         viewBinding.searchIcon.setOnClickListener {
             val getTextFromEditText = viewBinding.inputSearchText.text.toString()
             presenter.getImagesFromSearchText(getTextFromEditText)
+
+                ImageSearch.getDB()
+                    .retain(SearchRequestTable(request = getTextFromEditText))
+
         }
         viewBinding.inputSearchText.setOnKeyListener { view, i, keyEvent ->
             val getTextFromEditText = viewBinding.inputSearchText.text.toString()
@@ -89,6 +96,8 @@ class MainFragment : MvpAppCompatFragment(), MainView {
                 (i == KeyEvent.KEYCODE_ENTER)
             ) {
                 presenter.getImagesFromSearchText(getTextFromEditText)
+                ImageSearch.getDB()
+                    .retain(SearchRequestTable(request = getTextFromEditText))
                 return@setOnKeyListener true;
             }
             return@setOnKeyListener false;

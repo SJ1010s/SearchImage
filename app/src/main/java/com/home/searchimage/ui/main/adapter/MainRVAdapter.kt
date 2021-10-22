@@ -20,7 +20,7 @@ class MainRVAdapter(
     private var imageList: List<ImageMainScreenData>? = null
     fun setImageList(images: List<ImageMainScreenData>) {
         imageList = images
-        notifyDataSetChanged()
+        notifyItemRangeChanged(0, itemCount)
     }
 
 
