@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
 import androidx.room.Room
 import com.github.terrakok.cicerone.Router
 import com.home.searchimage.ImageSearch
@@ -13,6 +14,7 @@ import com.home.searchimage.model.data.ImageMainScreenData
 import com.home.searchimage.model.data.ImageMainScreenDataList
 import com.home.searchimage.model.data.RemoteDataSource
 import com.home.searchimage.model.room.AppDataBase
+import com.home.searchimage.model.room.SearchRequestTable
 import com.home.searchimage.ui.zoomimage.ZoomScreen
 import moxy.MvpPresenter
 import retrofit2.Call
@@ -75,6 +77,7 @@ class MainPresenter() : MvpPresenter<MainView>() {
         viewState.initRV()
         initImageList()
         viewState.getInputSearchTextListener()
+        viewState.onTextChangeListener()
     }
 
     class ItemViewClickListener(val presenter: MainPresenter) : OnItemViewClickListener {
@@ -103,5 +106,22 @@ class MainPresenter() : MvpPresenter<MainView>() {
     fun getImagesFromSearchText(request: String) {
         images.clear()
         repository?.getImageListFromServer(request, callback)
+    }
+
+    fun setTextToDB (textFromEditText: String){
+        if (ImageSearch.getDB().getItem(item = textFromEditText) != textFromEditText) {
+            ImageSearch.getDB().retain(SearchRequestTable(request = textFromEditText))
+        }
+    }
+
+    fun textDBEqualSearchText (textFromEditText: String):List<String>{
+        val getDBTextList: List<SearchRequestTable> = ImageSearch.getDB().getAll()
+        val textEqualText: MutableList<String> = mutableListOf()
+        getDBTextList.forEach({
+            if (it.request.startsWith(textFromEditText, true)){
+                textEqualText.add(it.request)
+            }
+        })
+        return textEqualText
     }
 }

@@ -5,12 +5,16 @@ import android.content.SharedPreferences
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.github.terrakok.cicerone.Router
@@ -35,6 +39,7 @@ class MainFragment : MvpAppCompatFragment(), MainView {
     private var adapter: MainRVAdapter? = null
 
     private var layoutManagerStateParcelable: Parcelable? = null
+    private var popupMenu: PopupMenu? = null
 
 
     @Inject
@@ -46,7 +51,7 @@ class MainFragment : MvpAppCompatFragment(), MainView {
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             layoutManagerStateParcelable =
                 savedInstanceState.getParcelable("recycler_view_main_fragment")
         }
@@ -83,24 +88,36 @@ class MainFragment : MvpAppCompatFragment(), MainView {
 
     override fun getInputSearchTextListener() {
         viewBinding.searchIcon.setOnClickListener {
-            val getTextFromEditText = viewBinding.inputSearchText.text.toString()
+            val getTextFromEditText = viewBinding.inputSearchText.text.toString().lowercase()
             presenter.getImagesFromSearchText(getTextFromEditText)
-
-                ImageSearch.getDB()
-                    .retain(SearchRequestTable(request = getTextFromEditText))
+            presenter.setTextToDB(getTextFromEditText)
 
         }
         viewBinding.inputSearchText.setOnKeyListener { view, i, keyEvent ->
-            val getTextFromEditText = viewBinding.inputSearchText.text.toString()
+            val getTextFromEditText: String =
+                viewBinding.inputSearchText.text.toString().lowercase()
             if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) &&
                 (i == KeyEvent.KEYCODE_ENTER)
             ) {
                 presenter.getImagesFromSearchText(getTextFromEditText)
-                ImageSearch.getDB()
-                    .retain(SearchRequestTable(request = getTextFromEditText))
+                presenter.setTextToDB(getTextFromEditText)
                 return@setOnKeyListener true;
             }
             return@setOnKeyListener false;
+        }
+    }
+
+    override fun onTextChangeListener() {
+        popupMenu = PopupMenu(viewBinding.inputSearchText.context, viewBinding.inputSearchText)
+        viewBinding.inputSearchText.addTextChangedListener {
+            popupMenu?.menu?.clear()
+            val textFromEditText: String =
+                viewBinding.inputSearchText.text.toString().lowercase()
+            val textEqualTextList: List<String> = presenter.textDBEqualSearchText(textFromEditText)
+            textEqualTextList.forEach({
+                popupMenu?.menu?.add(it)
+                if (popupMenu!=null) popupMenu!!.show()
+            })
         }
     }
 
