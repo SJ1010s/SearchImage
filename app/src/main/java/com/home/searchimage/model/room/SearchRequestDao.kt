@@ -4,8 +4,8 @@ import androidx.room.*
 
 @Dao
 interface SearchRequestDao {
-    @Query("SELECT * FROM search_request")
-    fun getAll(): List<SearchRequestTable>
+    @Query("SELECT request FROM search_request")
+    fun getAll(): List<String>
 
     @Query("SELECT request FROM search_request WHERE request=:item LIMIT 1")
     fun getItem(item: String): String

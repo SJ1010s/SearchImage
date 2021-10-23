@@ -17,26 +17,6 @@ class ImageSearch: Application() {
         fun getComponent():ImageSearchAppComponent{
             return component
         }
-
-        private var db: AppDataBase? = null
-        fun getDB(): SearchRequestDao {
-            if (db == null) {
-                synchronized(AppDataBase::class.java) {
-                    if (db == null) {
-                        db = Room.databaseBuilder(
-                            instance.applicationContext,
-                            AppDataBase::class.java,
-                            "search_image_db.db")
-                            .allowMainThreadQueries()
-                            .fallbackToDestructiveMigration()
-                            .build()
-                    }
-                }
-            }
-
-            return db!!.searchRequestDao()
-        }
-
     }
 
 

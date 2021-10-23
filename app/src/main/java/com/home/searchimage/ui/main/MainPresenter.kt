@@ -14,6 +14,7 @@ import com.home.searchimage.model.data.ImageMainScreenData
 import com.home.searchimage.model.data.ImageMainScreenDataList
 import com.home.searchimage.model.data.RemoteDataSource
 import com.home.searchimage.model.room.AppDataBase
+import com.home.searchimage.model.room.SearchRequestDao
 import com.home.searchimage.model.room.SearchRequestTable
 import com.home.searchimage.ui.zoomimage.ZoomScreen
 import moxy.MvpPresenter
@@ -31,6 +32,9 @@ class MainPresenter() : MvpPresenter<MainView>() {
     //    private lateinit var component: ImageSearchActivityComponent
     @Inject
     lateinit var router: Router
+
+    @Inject
+    lateinit var getDB: SearchRequestDao
 
     private val callback: Callback<ImageMainScreenDataList> =
         object : Callback<ImageMainScreenDataList> {
@@ -77,7 +81,7 @@ class MainPresenter() : MvpPresenter<MainView>() {
         viewState.initRV()
         initImageList()
         viewState.getInputSearchTextListener()
-        viewState.onTextChangeListener()
+        viewState.onTextChange()
     }
 
     class ItemViewClickListener(val presenter: MainPresenter) : OnItemViewClickListener {
@@ -109,19 +113,23 @@ class MainPresenter() : MvpPresenter<MainView>() {
     }
 
     fun setTextToDB (textFromEditText: String){
-        if (ImageSearch.getDB().getItem(item = textFromEditText) != textFromEditText) {
-            ImageSearch.getDB().retain(SearchRequestTable(request = textFromEditText))
+        if (getDB.getItem(item = textFromEditText) != textFromEditText) {
+            getDB.retain(SearchRequestTable(request = textFromEditText))
         }
     }
 
-    fun textDBEqualSearchText (textFromEditText: String):List<String>{
-        val getDBTextList: List<SearchRequestTable> = ImageSearch.getDB().getAll()
-        val textEqualText: MutableList<String> = mutableListOf()
-        getDBTextList.forEach({
-            if (it.request.startsWith(textFromEditText, true)){
-                textEqualText.add(it.request)
-            }
-        })
-        return textEqualText
+    fun getAllFromDB(): List<String>{
+        return getDB.getAll()
     }
+
+//    fun textDBEqualSearchText (textFromEditText: String):List<String>{
+//        val getDBTextList: List<SearchRequestTable> = getDB.getAll()
+//        val textEqualText: MutableList<String> = mutableListOf()
+//        getDBTextList.forEach({
+//            if (it.request.startsWith(textFromEditText, true)){
+//                textEqualText.add(it.request)
+//            }
+//        })
+//        return textEqualText
+//    }
 }

@@ -1,5 +1,6 @@
 package com.home.searchimage.ui.main
 
+import android.widget.ArrayAdapter
 import com.home.searchimage.model.Repository
 import com.home.searchimage.model.data.ImageMainScreenData
 import moxy.MvpView
@@ -13,5 +14,5 @@ interface MainView: MvpView {
     fun initRV()
     fun setImages(images: List<ImageMainScreenData>)
     fun getInputSearchTextListener()
-    fun onTextChangeListener()
+    fun onTextChange()
 }

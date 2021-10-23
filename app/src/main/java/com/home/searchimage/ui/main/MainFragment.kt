@@ -7,11 +7,9 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.KeyEvent
+import android.view.*
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
@@ -37,10 +35,10 @@ class MainFragment : MvpAppCompatFragment(), MainView {
     private val viewBinding get() = _viewBinding!!
     private val presenter: MainPresenter by moxyPresenter { MainPresenter() }
     private var adapter: MainRVAdapter? = null
+    private var arrayAdapter: ArrayAdapter<String>? = null
+
 
     private var layoutManagerStateParcelable: Parcelable? = null
-    private var popupMenu: PopupMenu? = null
-
 
     @Inject
     lateinit var router: Router
@@ -92,6 +90,8 @@ class MainFragment : MvpAppCompatFragment(), MainView {
             presenter.getImagesFromSearchText(getTextFromEditText)
             presenter.setTextToDB(getTextFromEditText)
 
+            onTextChange()
+
         }
         viewBinding.inputSearchText.setOnKeyListener { view, i, keyEvent ->
             val getTextFromEditText: String =
@@ -101,25 +101,24 @@ class MainFragment : MvpAppCompatFragment(), MainView {
             ) {
                 presenter.getImagesFromSearchText(getTextFromEditText)
                 presenter.setTextToDB(getTextFromEditText)
+                onTextChange()
                 return@setOnKeyListener true;
             }
             return@setOnKeyListener false;
         }
     }
 
-    override fun onTextChangeListener() {
-        popupMenu = PopupMenu(viewBinding.inputSearchText.context, viewBinding.inputSearchText)
-        viewBinding.inputSearchText.addTextChangedListener {
-            popupMenu?.menu?.clear()
-            val textFromEditText: String =
-                viewBinding.inputSearchText.text.toString().lowercase()
-            val textEqualTextList: List<String> = presenter.textDBEqualSearchText(textFromEditText)
-            textEqualTextList.forEach({
-                popupMenu?.menu?.add(it)
-                if (popupMenu!=null) popupMenu!!.show()
-            })
-        }
+
+    override fun onTextChange() {
+        arrayAdapter = ArrayAdapter<String>(
+            requireActivity().getApplicationContext(),
+            android.R.layout.simple_dropdown_item_1line,
+            presenter.getAllFromDB()
+        )
+        val autoCompleteTextView = viewBinding.inputSearchText
+        autoCompleteTextView.setAdapter(arrayAdapter)
     }
+
 
     override fun onPause() {
         super.onPause()

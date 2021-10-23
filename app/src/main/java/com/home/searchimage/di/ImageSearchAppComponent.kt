@@ -4,13 +4,14 @@ import com.home.searchimage.ImageSearch
 import com.home.searchimage.MainActivity
 import com.home.searchimage.di.modules.AppModule
 import com.home.searchimage.di.modules.CiceroneModule
+import com.home.searchimage.di.modules.RoomModule
 import com.home.searchimage.ui.main.MainPresenter
 import com.home.searchimage.ui.zoomimage.ZoomPresenter
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppModule::class, CiceroneModule::class])
+@Component(modules = [AppModule::class, CiceroneModule::class, RoomModule::class])
 interface ImageSearchAppComponent {
     fun inject(app: ImageSearch)
     fun inject(mainActivity: MainActivity)
