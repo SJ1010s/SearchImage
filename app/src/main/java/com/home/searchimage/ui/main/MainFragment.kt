@@ -88,10 +88,8 @@ class MainFragment : MvpAppCompatFragment(), MainView {
         viewBinding.searchIcon.setOnClickListener {
             val getTextFromEditText = viewBinding.inputSearchText.text.toString().lowercase()
             presenter.getImagesFromSearchText(getTextFromEditText)
-            presenter.setTextToDB(getTextFromEditText)
-
-            onTextChange()
-
+            presenter.setSingleTextToDB(getTextFromEditText)
+            updateTextView()
         }
         viewBinding.inputSearchText.setOnKeyListener { view, i, keyEvent ->
             val getTextFromEditText: String =
@@ -100,8 +98,8 @@ class MainFragment : MvpAppCompatFragment(), MainView {
                 (i == KeyEvent.KEYCODE_ENTER)
             ) {
                 presenter.getImagesFromSearchText(getTextFromEditText)
-                presenter.setTextToDB(getTextFromEditText)
-                onTextChange()
+                presenter.setSingleTextToDB(getTextFromEditText)
+                updateTextView()
                 return@setOnKeyListener true;
             }
             return@setOnKeyListener false;
@@ -109,7 +107,7 @@ class MainFragment : MvpAppCompatFragment(), MainView {
     }
 
 
-    override fun onTextChange() {
+    override fun updateTextView() {
         arrayAdapter = ArrayAdapter<String>(
             requireActivity().getApplicationContext(),
             android.R.layout.simple_dropdown_item_1line,

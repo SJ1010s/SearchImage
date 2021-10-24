@@ -14,5 +14,5 @@ interface MainView: MvpView {
     fun initRV()
     fun setImages(images: List<ImageMainScreenData>)
     fun getInputSearchTextListener()
-    fun onTextChange()
+    fun updateTextView()
 }

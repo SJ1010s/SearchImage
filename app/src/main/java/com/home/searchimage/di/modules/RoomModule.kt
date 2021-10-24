@@ -23,7 +23,7 @@ class RoomModule {
                         ImageSearch.instance.applicationContext,
                         AppDataBase::class.java,
                         "search_image_db.db")
-                        .allowMainThreadQueries()
+//                        .allowMainThreadQueries()
                         .fallbackToDestructiveMigration()
                         .build()
                 }
