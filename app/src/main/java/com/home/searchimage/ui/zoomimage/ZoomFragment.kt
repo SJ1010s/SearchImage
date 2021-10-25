@@ -76,17 +76,7 @@ class ZoomFragment() : MvpAppCompatFragment(), ZoomView {
 
     override fun downloadClick() {
         viewBinding.downloadButton.setOnClickListener(View.OnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                saveImage(
-                    Glide.with(this@ZoomFragment)
-                        .asBitmap()
-                        .load(getURLFromBundle()) // sample image
-                        .placeholder(android.R.drawable.progress_indeterminate_horizontal) // need placeholder to avoid issue like glide annotations
-                        .error(android.R.drawable.stat_notify_error) // need error to avoid issue like glide annotations
-                        .submit()
-                        .get()
-                )
-            }
+            presenter.imageDownload(this, getURLFromBundle())
             Toast(requireContext()).apply {
                 setText("Изображение скачано")
                 show()
@@ -94,51 +84,7 @@ class ZoomFragment() : MvpAppCompatFragment(), ZoomView {
         })
     }
 
-    private fun getImageFileName(getURL: String): String {
-        val split: List<String> = getURL.split("/")
-        val length = split.size
-        return split[length - 1]
-    }
 
-
-    private fun saveImage(image: Bitmap): String? {
-        var savedImagePath: String? = null
-        val imageFileName = "JPEG_${getImageFileName(getURLFromBundle())}"
-        val storageDir = File(
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                .toString() + "/Search image"
-        )
-        var success = true
-        if (!storageDir.exists()) {
-            success = storageDir.mkdirs()
-        }
-        if (success) {
-            val imageFile = File(storageDir, imageFileName)
-            savedImagePath = imageFile.getAbsolutePath()
-            try {
-                val fOut: OutputStream = FileOutputStream(imageFile)
-                image.compress(Bitmap.CompressFormat.JPEG, 100, fOut)
-                fOut.close()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-
-            // Add the image to the system gallery
-            galleryAddPic(savedImagePath)
-            //Toast.makeText(this, "IMAGE SAVED", Toast.LENGTH_LONG).show() // to make this working, need to manage coroutine, as this execution is something off the main thread
-        }
-        return savedImagePath
-    }
-
-    private fun galleryAddPic(imagePath: String?) {
-        imagePath?.let { path ->
-            val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
-            val f = File(path)
-            val contentUri: Uri = Uri.fromFile(f)
-            mediaScanIntent.data = contentUri
-            requireActivity().sendBroadcast(mediaScanIntent)
-        }
-    }
 
     override fun setZoomImage() {
         val zoomableImageView = viewBinding.zoomImageView
