@@ -4,8 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.14427083333333332" />
+        <entry key="app/src/main/res/drawable/ic_baseline_arrow_downward_24.xml" value="0.1421875" />
+        <entry key="app/src/main/res/drawable/ic_baseline_image_100.xml" value="0.1453125" />
         <entry key="app/src/main/res/layout/image_list_item.xml" value="0.165" />
-        <entry key="app/src/main/res/layout/image_zoom_fragment.xml" value="0.12916666666666668" />
+        <entry key="app/src/main/res/layout/image_zoom_fragment.xml" value="0.25" />
         <entry key="app/src/main/res/layout/main_activity.xml" value="0.12916666666666668" />
         <entry key="app/src/main/res/layout/main_fragment.xml" value="0.165" />
       </map>

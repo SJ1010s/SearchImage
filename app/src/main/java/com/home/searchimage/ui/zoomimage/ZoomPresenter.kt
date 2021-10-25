@@ -16,11 +16,8 @@ class ZoomPresenter() : MvpPresenter<ZoomView>() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         ImageSearch.getComponent().inject(this)
+        viewState.setDefaultImage()
         viewState.setZoomImage()
+        viewState.downloadClick()
     }
-
-//    fun getComponent(): ImageSearchActivityComponent {
-//        return component
-//    }
-
 }
