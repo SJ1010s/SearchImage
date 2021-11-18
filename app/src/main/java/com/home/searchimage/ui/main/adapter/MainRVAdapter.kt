@@ -18,6 +18,7 @@ class MainRVAdapter(
 ) : RecyclerView.Adapter<MainRVAdapter.viewHolder>() {
 
     private var imageList: List<ImageMainScreenData>? = null
+
     fun setImageList(images: List<ImageMainScreenData>) {
         imageList = images
         notifyDataSetChanged()
@@ -34,7 +35,11 @@ class MainRVAdapter(
     }
 
     override fun getItemCount(): Int {
-        return presenter.getCount()
+        if (imageList != null) {
+            return imageList!!.size
+        } else {
+            return 0
+        }
     }
 
     override fun onBindViewHolder(holder: viewHolder, position: Int) {
@@ -48,6 +53,7 @@ class MainRVAdapter(
 
         fun bind(imageItem: ImageMainScreenData) {
             itemView.setOnClickListener {
+
                 onItemViewClickListener?.onItemViewClick(imageItem.largeImageURL)
             }
             Glide

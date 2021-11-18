@@ -1,9 +1,12 @@
 package com.home.searchimage
 
 import android.app.Application
+import androidx.room.Room
 import com.home.searchimage.di.DaggerImageSearchAppComponent
 import com.home.searchimage.di.ImageSearchAppComponent
 import com.home.searchimage.di.modules.CiceroneModule
+import com.home.searchimage.model.room.AppDataBase
+import com.home.searchimage.model.room.SearchRequestDao
 
 class ImageSearch: Application() {
 

@@ -9,4 +9,6 @@ import moxy.viewstate.strategy.StateStrategyType
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface ZoomView: MvpView {
     fun setZoomImage()
+    fun setDefaultImage()
+    fun downloadClick()
 }

@@ -2,9 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/black">
 
-    <ImageView
+    <com.home.searchimage.ZoomableImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/zoom_image_view"
@@ -12,6 +13,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="zoom image view" />
+        android:contentDescription="@string/zoom_image_view" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/download_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_baseline_arrow_downward_24"
+        app:backgroundTint="@android:color/darker_gray"
+        android:contentDescription="@string/download" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
