@@ -1,49 +1,26 @@
 package com.home.searchimage.ui.zoomimage
 
-import android.app.PictureInPictureUiState
-import android.content.Intent
-import android.content.res.Resources
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Picture
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.PictureDrawable
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.BitmapDrawableResource
-import com.bumptech.glide.load.resource.bitmap.BitmapResource
 import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.home.searchimage.R
-import com.home.searchimage.ZoomableImageView
 
 import com.home.searchimage.databinding.ImageZoomFragmentBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
 import java.lang.NullPointerException
-import javax.annotation.Resource
-import android.graphics.Bitmap.createBitmap as createBitmap
 
 
-class ZoomFragment() : MvpAppCompatFragment(), ZoomView {
+class ZoomFragment() : MvpAppCompatFragment(), ZoomView, DownlodFromServer {
 
     private var _viewBinding: ImageZoomFragmentBinding? = null
     private val viewBinding get() = _viewBinding!!
@@ -76,7 +53,7 @@ class ZoomFragment() : MvpAppCompatFragment(), ZoomView {
 
     override fun downloadClick() {
         viewBinding.downloadButton.setOnClickListener(View.OnClickListener {
-            presenter.imageDownload(this, getURLFromBundle())
+            presenter.imageDownload(this, this)
             Toast(requireContext()).apply {
                 setText("Изображение скачано")
                 show()
@@ -91,7 +68,7 @@ class ZoomFragment() : MvpAppCompatFragment(), ZoomView {
         Glide
             .with(this)
             .asBitmap()
-            .load(getURLFromBundle())
+            .load(getURL())
             .into(object : CustomTarget<Bitmap>() {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                     zoomableImageView.setImageBitmap(resource)
@@ -102,7 +79,7 @@ class ZoomFragment() : MvpAppCompatFragment(), ZoomView {
             })
     }
 
-    fun getURLFromBundle(): String {
+    override fun getURL(): String {
         val bundle = getArguments()
         val URLFromBundle = bundle?.getString("key")
         if (URLFromBundle != null)

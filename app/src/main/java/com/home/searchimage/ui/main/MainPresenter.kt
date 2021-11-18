@@ -57,6 +57,7 @@ class MainPresenter() : MvpPresenter<MainView>() {
         }
 
     private fun checkResponse(imagesData: ImageMainScreenDataList) {
+        images.clear()
         imagesData.hits?.forEach {
             if (it.downloads != null &&
                 it.previewURL != null &&
@@ -65,7 +66,9 @@ class MainPresenter() : MvpPresenter<MainView>() {
                 it.views != null
             ) {
                 images.add(it)
-                Log.d(TAG, "checkResponse: ${it.previewURL}")
+                Log.d(TAG, "значение запроса: ${it.previewURL}")
+            }else{
+                Log.d(TAG, "checkResponse: в массиве значение = null")
             }
         }
         viewState.setImages(images)
@@ -107,8 +110,8 @@ class MainPresenter() : MvpPresenter<MainView>() {
     }
 
     fun getImagesFromSearchText(request: String) {
-        images.clear()
         repository?.getImageListFromServer(request, callback)
+        viewState.setImages(images)
     }
 
     fun setSingleTextToDB(textFromEditText: String) {

@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Environment
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.home.searchimage.ui.zoomimage.DownlodFromServer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -13,14 +14,14 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 
-class ImageDownload(val fragment: Fragment, val getURLFromBundle: String) {
+class ImageDownload(val fragment: Fragment, val downlodFromServer: DownlodFromServer) {
 
     fun saveImageFromServer(){
         CoroutineScope(Dispatchers.IO).launch {
             saveImage(
                 Glide.with(fragment)
                     .asBitmap()
-                    .load(getURLFromBundle) // sample image
+                    .load(downlodFromServer.getURL()) // sample image
                     .placeholder(android.R.drawable.progress_indeterminate_horizontal) // need placeholder to avoid issue like glide annotations
                     .error(android.R.drawable.stat_notify_error) // need error to avoid issue like glide annotations
                     .submit()
@@ -31,7 +32,7 @@ class ImageDownload(val fragment: Fragment, val getURLFromBundle: String) {
 
     private fun saveImage(image: Bitmap): String? {
         var savedImagePath: String? = null
-        val imageFileName = "JPEG_${getImageFileName(getURLFromBundle)}"
+        val imageFileName = "JPEG_${getImageFileName(downlodFromServer.getURL())}"
         val storageDir = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
                 .toString() + "/Search image"

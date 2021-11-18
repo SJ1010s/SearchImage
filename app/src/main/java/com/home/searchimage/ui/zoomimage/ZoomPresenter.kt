@@ -23,7 +23,7 @@ class ZoomPresenter() : MvpPresenter<ZoomView>() {
         viewState.downloadClick()
     }
 
-    fun imageDownload(fragment: Fragment, getURL: String){
+    fun imageDownload(fragment: Fragment, getURL: DownlodFromServer){
         ImageDownload(fragment, getURL).saveImageFromServer()
     }
 }
