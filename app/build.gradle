@@ -43,7 +43,7 @@ android {
     buildTypes.each {
         Properties properties = new Properties()
         properties.load(project.rootProject.file("api_key.properties").newDataInputStream())
-        def apiKey  = properties.getProperty("pixabay_api_key", "")
+        def apiKey = properties.getProperty("pixabay_api_key", "")
         it.buildConfigField "String", "PIXABAY_API_KEY", apiKey
     }
 
@@ -51,7 +51,14 @@ android {
 }
 
 dependencies {
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
+    testImplementation "org.mockito:mockito-core:2.26.0"
+    testImplementation 'org.mockito:mockito-inline:2.8.9'
+    testImplementation('com.nhaarman:mockito-kotlin:1.5.0') {
+        exclude group: 'org.jetbrains.kotlin'
+        exclude group: 'org.mockito'
+    }
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
 
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation 'io.reactivex.rxjava3:rxjava:3.1.1'

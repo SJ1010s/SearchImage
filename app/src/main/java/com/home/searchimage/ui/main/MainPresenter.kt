@@ -16,6 +16,7 @@ import com.home.searchimage.ui.zoomimage.ZoomScreen
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import moxy.InjectViewState
 import moxy.MvpPresenter
 import retrofit2.Call
 import retrofit2.Callback
@@ -23,11 +24,12 @@ import retrofit2.Response
 import java.lang.Exception
 import javax.inject.Inject
 
+@InjectViewState
 class MainPresenter() : MvpPresenter<MainView>() {
 
     val itemViewClickListener = ItemViewClickListener(this)
     private val images = mutableListOf<ImageMainScreenData>()
-    private var repository: Repository? = null
+    var repository: Repository? = null
     private val disposables = CompositeDisposable()
 
     //    private lateinit var component: ImageSearchActivityComponent

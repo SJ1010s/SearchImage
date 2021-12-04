@@ -13,7 +13,6 @@ class RemoteDataSource {
             GsonConverterFactory
                 .create(
                     GsonBuilder()
-                        .setLenient()
                         .create()
                 )
         )
